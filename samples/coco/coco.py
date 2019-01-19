@@ -395,6 +395,9 @@ def evaluate_coco(model, dataset, coco, eval_type="bbox", limit=0, image_ids=Non
 #  Training
 ############################################################
 
+coc_class_names_ours = ['BG', 'person', 'bicycle', 'car', 'motorcycle',
+                        'boat', 'cow', 'elephant']
+
 
 if __name__ == '__main__':
     import argparse
@@ -478,9 +481,11 @@ if __name__ == '__main__':
         # Training dataset. Use the training set and 35K from the
         # validation set, as as in the Mask RCNN paper.
         dataset_train = CocoDataset()
-        dataset_train.load_coco(args.dataset, "train", year=args.year, auto_download=args.download)
+        dataset_train.load_coco(args.dataset, "train", year=args.year, auto_download=args.download,
+                                class_ids=coc_class_names_ours)
         if args.year in '2014':
-            dataset_train.load_coco(args.dataset, "valminusminival", year=args.year, auto_download=args.download)
+            dataset_train.load_coco(args.dataset, "valminusminival", year=args.year, auto_download=args.download,
+                                    class_ids=coc_class_names_ours)
         dataset_train.prepare()
 
         # Validation dataset
