@@ -31,6 +31,7 @@ import os
 import sys
 import time
 import numpy as np
+sys.path.append('/home/presentation/repos/cocoapi/PythonAPI')
 # import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
 
 # Download and install the Python COCO tools from https://github.com/waleedka/coco
@@ -397,7 +398,7 @@ def evaluate_coco(model, dataset, coco, eval_type="bbox", limit=0, image_ids=Non
 
 coc_class_names_ours = ['BG', 'person', 'bicycle', 'car', 'motorcycle',
                         'boat', 'cow', 'elephant']
-
+coc_class_names_ours_ids = [1, 2, 3, 4, 9, 21, 22]
 
 if __name__ == '__main__':
     import argparse
@@ -482,10 +483,10 @@ if __name__ == '__main__':
         # validation set, as as in the Mask RCNN paper.
         dataset_train = CocoDataset()
         dataset_train.load_coco(args.dataset, "train", year=args.year, auto_download=args.download,
-                                class_ids=coc_class_names_ours)
+                                class_ids=coc_class_names_ours_ids)
         if args.year in '2014':
             dataset_train.load_coco(args.dataset, "valminusminival", year=args.year, auto_download=args.download,
-                                    class_ids=coc_class_names_ours)
+                                    class_ids=coc_class_names_ours_ids)
         dataset_train.prepare()
 
         # Validation dataset
