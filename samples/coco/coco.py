@@ -31,7 +31,7 @@ import os
 import sys
 import time
 import numpy as np
-import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
+# import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
 
 # Download and install the Python COCO tools from https://github.com/waleedka/coco
 # That's a fork from the original https://github.com/pdollar/coco with a bug
@@ -78,7 +78,7 @@ class CocoConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 2
+    IMAGES_PER_GPU = 1
 
     # Uncomment to train on 8 GPUs (default is 1)
     # GPU_COUNT = 8
@@ -491,7 +491,7 @@ if __name__ == '__main__':
 
         # Image Augmentation
         # Right/Left flip 50% of the time
-        augmentation = imgaug.augmenters.Fliplr(0.5)
+        # augmentation = imgaug.augmenters.Fliplr(0.5)
 
         # *** This training schedule is an example. Update to your needs ***
 
@@ -501,7 +501,7 @@ if __name__ == '__main__':
                     learning_rate=config.LEARNING_RATE,
                     epochs=40,
                     layers='heads',
-                    augmentation=augmentation)
+                    augmentation=None)
 
         # Training - Stage 2
         # Finetune layers from ResNet stage 4 and up
@@ -510,7 +510,7 @@ if __name__ == '__main__':
                     learning_rate=config.LEARNING_RATE,
                     epochs=120,
                     layers='4+',
-                    augmentation=augmentation)
+                    augmentation=None)
 
         # Training - Stage 3
         # Fine tune all layers
@@ -519,7 +519,7 @@ if __name__ == '__main__':
                     learning_rate=config.LEARNING_RATE / 10,
                     epochs=160,
                     layers='all',
-                    augmentation=augmentation)
+                    augmentation=None)
 
     elif args.command == "evaluate":
         # Validation dataset
