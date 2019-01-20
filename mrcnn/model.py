@@ -2363,12 +2363,16 @@ class MaskRCNN():
             workers = multiprocessing.cpu_count()
 
         # next(val_generator)
+        # TODO(Partha): Remove hardcoding
+        mdl_chk_ppt = keras.callbacks.ModelCheckpoint("/home/presentation/repos/Mask_RCNN/saved_models/mask_rcnn_finetuned_{epoch:02d}.h5",
+                                                      monitor='val_loss', verbose=0, save_best_only=False,
+                                                      save_weights_only=True, mode='auto', period=1)
         self.keras_model.fit_generator(
-            val_generator,
+            val_generator ,
             initial_epoch=self.epoch,
             epochs=epochs,
-            steps_per_epoch=self.config.VALIDATION_STEPS,
-            callbacks=callbacks,
+            steps_per_epoch=self.config.STEPS_PER_EPOCH,
+            callbacks=callbacks+[mdl_chk_ppt],
             validation_data=val_generator,
             validation_steps=self.config.VALIDATION_STEPS,
             max_queue_size=100,
